@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+    
+    environment {
+        GIT_REPO = 'https://github.com/PrakruthiThunga/basic.git'
+        BRANCH = 'prakruthi'
+    }
+    
+    stages {
+        stage('Checkout Code') {
+            steps {
+                echo 'Cloning repository...'
+                git branch: "${prakruthi}", url: "${https://github.com/PrakruthiThunga/basic.git}"
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                echo 'Building project...'
+                // Example for Python
+                sh 'pip install -r requirements.txt'
+                // Example for Java
+                // sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // Example for Python
+                sh 'pytest'
+                // Example for Java
+                // sh 'mvn test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
+                // Example deploy to Docker, server, or folder
+                // sh 'docker build -t myapp:latest .'
+                // sh 'docker run -d -p 8080:8080 myapp:latest'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Build and deployment successful!"
+        }
+        failure {
+            echo "❌ Build failed!"
+        }
+    }
+}
